@@ -1,0 +1,376 @@
+@charset "UTF-8";
+.spinner svg {
+  width: 40px;
+  height: 40px;
+  stroke: #444;
+  fill: rgb(225,0,0);
+  margin: -10px !important;
+}
+
+#radio5kmUI, #radio10kmUI, #radio15kmUI {
+  background-color: #fff;
+  border: 2px solid #fff;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.3);
+  cursor: pointer;
+  float: left;
+  margin-bottom: 22px;
+  text-align: center;
+}
+
+#radio5kmText, #radio10kmText, #radio15kmText {
+  color: rgb(25,25,25);
+  font-family: Roboto,Arial,sans-serif;
+  font-size: 15px;
+  line-height: 25px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#radio10kmUI, #radio15kmUI {
+  margin-left: 12px;
+}
+
+/*para modificar el color del cursor del input */
+input {
+  color: white !important;  /* change [input cursor color] by this*/
+  font-weight:500 !important;
+  text-shadow: 0px 0px 0px white; /* change [input font] by this*/
+  -webkit-text-fill-color: transparent;
+  border-color: #009688 !important;
+  font-size: 16px !important;
+  padding-left: 20px !important;
+
+}
+
+/* cambia las propiedades del input de buscar*/
+.item-input-wrapper{
+  background-color: transparent!important;
+  border: solid;
+  border-color: white;
+border-radius: 50px;
+color: white!important;
+
+}
+
+.input-search{
+  width: 100%;
+
+}
+
+.icon-btn-buscar {
+   font-size: 30px !important;
+   color: white;
+   margin-left: 2%;
+}
+
+
+ 
+.btn-inicio{
+  background-color: rgba(255,0,0,0.5) ;
+  font-size: 150%;
+  font-weight: 500;
+}
+
+
+
+
+
+.badgeDetalle{
+  width: 30px !important;
+  height: 30px !important;
+
+  border-radius:50%;
+}
+
+.badge_lista{
+  width: 1.5em !important;
+  height: 1.5em !important;
+
+  border-radius:50%;
+}
+
+ @media screen and (orientation:portrait) { 
+    .btn-intrucciones-img{
+    height:100%;
+    width:25%;
+    border-radius:50px;
+  margin-left: 35%;
+    }
+
+    .bar-instrucciones{
+      height:8%; 
+      background-color: rgb(235,235,235);
+    }
+  
+     .mapa-orientation{
+      height:76% !important;
+    }
+
+    .img-mark-instruccion{
+     
+      color: rgb(150,150,150);
+    
+      
+
+    }
+    .text-instruccion{
+
+      font-size:150%;
+      color: rgb(150,150,150);
+      font-weight:500;
+      text-align: center;
+        font-weight:500;
+    }
+
+    .bar-search{  
+      height:10% !important;
+      width: 100% !important;
+
+      border: 2px solid;
+      border-color: rgb(255,0,0);
+    
+
+    }
+
+    .item-input-inset{
+    border-color: red !important;
+     
+     background-color: red !important;
+  
+      box-shadow: 5px 0px 0px #ff0000;
+   }
+
+
+
+    /* MEjora de la vista inicio*/
+    .img_center{
+    height:50%;
+     width:50%;
+      border-radius:20%;
+      margin-top: 5%;
+    }
+
+    .div-btn-inicio{
+        margin-top: 50%;
+      }
+}
+
+
+ @media screen and (orientation:landscape) {
+  .btn-intrucciones-img{
+    height:250%;
+    width:15%;
+    border-radius:50px;
+    margin-left: 35%;
+    }
+
+  .bar-instrucciones{
+      height:8%; 
+      background-color: rgb(235,235,235);
+    }
+
+    
+    .mapa-orientation{
+      height:70% !important;
+    }
+
+     .img-mark-instruccion{
+      font-size:14px;
+      color: rgb(150,150,150);
+    
+      
+
+    }
+    .text-instruccion{
+      font-size:150%;
+      color: rgb(150,150,150);
+      font-weight:500;
+     
+        font-weight:500;
+        text-align: center;
+    }
+
+    .bar-search{
+      height:15% !important;
+
+    }
+
+     .item-input-inset{
+    border-color: red !important;
+     
+     background-color: red !important;
+  
+      box-shadow: 5px 0px 0px #ff0000;
+   }
+
+    /* MEjora de la vista inicio*/
+    .img_center{
+    height:20% !important;
+     width:20%;
+      border-radius:20%;
+      margin-top: 5%;
+    }
+
+    .div-btn-inicio{
+        margin-top: 5% !important;
+        margin-bottom: 5% !important;
+      }
+
+ }
+
+
+.info-marker{
+  width: 250px;
+  font-size: 15px;
+}
+
+.contenidoMenu{
+  background-color: rgba(255,255,255,0.2);
+  border-radius: 10px; 
+}
+
+.menu {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(200,0,0,0.8);
+  
+}
+
+
+
+.tablaMenu{
+  width: 100%;
+  border-style:dashed;
+  border-width: 0.2em;
+  border-color: white;
+
+}
+
+.headMenu{
+  text-align: center;
+  color:yellow;
+  font-size: 1.5em;
+  width: 100%;
+  height: 2em !important;
+  background-color: #bb0f03;
+  border-top-style:dashed;
+  border-width: 0.05em;
+  border-color: white;
+}
+
+.cuerpoMenu{
+  text-align: center;
+  color:white;
+  font-size: 1.2em;
+  width: 100%;
+
+  border-top-style:dashed;
+  border-width: 0.05em;
+  border-color: white;
+
+  height: 2em !important;
+  background-color: #cc4433;
+  
+}
+
+.flecha_atras{
+float: right;
+font-size: 2.2em;
+color: white;
+}
+
+.btnAccionDetalleMarcador{
+  width: 100%;
+}
+.btnAccion{
+  width: 80%;
+}
+
+.div-btn-links{
+  font-size: 16px;
+  margin-bottom: 15% !important;
+  font-weight: 700;
+
+}
+
+.div-btn-inicio{
+  margin-top: 50%;
+}
+
+.detalleMarcador {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(200,0,0,0.8);
+
+  
+}
+
+.estiloGeneral,h3,h4,h2 {
+  color: white;
+
+}
+
+.item-complex .item-content, .item{
+    background-color: rgb(250,10,00);
+}
+
+.labelRadio{
+font-size: 15px;
+}
+ input[type=radio] {
+    border: 0px;
+    
+    
+}
+
+.popup-body{
+background-color: rgba(0,0,0,0.8) !important;
+color: white !important;
+
+}
+
+ .popup-head{
+background-color: rgba(0,0,0,0.8) !important;
+
+} 
+
+.popup-buttons.row {
+  background-color: rgba(0,0,0,0.8) !important;
+}
+
+.popup-buttons {
+  background-color: rgba(0,0,0,0.8) !important;
+}
+
+
+.list .item.item-accordion {
+  line-height: 38px;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: 0.09s all linear;
+ 
+ 
+}
+
+.list .item.item-accordion.ng-hide {
+  line-height: 0px;
+  
+   
+}
+.list .item.item-accordion.ng-hide-add,
+.list .item.item-accordion.ng-hide-remove {
+  display: block !important;
+
+}
+
+.list .item.active, .item.activated, .item-complex.active .item-content, .item-complex.activated .item-content {
+border-color: white;
+background-color: #bb0000;
+}
+
+td{
+text-align: left;
+padding-left: 8%;  
+}
+

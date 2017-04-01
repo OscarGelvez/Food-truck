@@ -1,0 +1,104 @@
+
+<ion-view view-title="Detalle Menú" style="background-image: url(img/fondo.png)">
+<ion-nav-bar class="bar-assertive">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+      
+    </ion-nav-bar>
+
+  <div class="menu">
+    <ion-content class="padding">
+    
+     <br>
+    <center>
+    		<h2 style="color:yellow;">Menú</h2>
+<br>
+    </center>
+	
+		<div ng-repeat="m in menuInfo">
+			<h4 ng-bind="m.nombre" style="color:white"></h4>
+	<br>
+
+		<div class="contenidoMenu">
+			<table class="tablaMenu">
+
+  <tr class="headMenu">
+    <th align="left" style="padding-left:5%;">Plato</th>
+    <th align="left" >Precio</th>
+  </tr>
+				  			  
+
+  <tr class="headMenu">
+    <th colspan="2" >Entradas</th>
+    
+  </tr>
+
+  					<tr class="cuerpoMenu" ng-repeat="mp in m.platoCollection" ng-show="{{mp.tipo==1 ? 'true':'false'}}">
+				    <td>{{mp.nombre}}</td>
+				    <td>{{mp.precio}}</td>
+				  </tr>
+
+
+				    <tr class="cuerpoMenu">
+				    <td>Rollitos de queso</td>
+				    <td>20000</td>
+				  </tr>
+
+	<tr class="headMenu">
+	<th colspan="2">Principal</th>	
+	</tr>				  
+					<tr class="cuerpoMenu" ng-repeat="mp in m.platoCollection" ng-show="{{mp.tipo==2 ? 'true':'false'}}">
+				    <td>{{mp.nombre}}</td>
+				    <td>{{mp.precio}}</td>
+				  </tr>
+
+
+				    <tr class="cuerpoMenu">
+				    <td>Carne Asada</td>
+				    <td>20000</td>
+				  </tr>
+
+	<tr class="headMenu">
+	<th colspan="2">Postres</th>	
+	</tr>	
+
+
+
+				<tr class="cuerpoMenu" ng-repeat="mp in m.platoCollection" ng-show="{{mp.tipo==3 ? 'true':'false'}}">
+				    <td>{{mp.nombre}}</td>
+				    <td>{{mp.precio}}</td>
+				  </tr>
+
+	 				<tr class="cuerpoMenu">
+				    <td>Torta 3 leches arquipe</td>
+				    <td>35000</td>
+				  </tr>
+				  
+	<tr class="headMenu">
+	<th colspan="2">Bebidas</th>	
+	</tr>				 
+
+
+				<tr class="cuerpoMenu" ng-repeat="mp in m.platoCollection" ng-show="{{mp.tipo==4 ? 'true':'false'}}">
+				    <td>{{mp.nombre}}</td>
+				    <td>{{mp.precio}}</td>
+				  </tr>
+
+					<tr class="cuerpoMenu">
+				    <td>Gaseosa Cocacola</td>
+				    <td>2000</td>
+				  </tr>
+
+
+				</table>
+
+
+			
+
+		</div>
+		</div>
+		<br><br>
+     
+    </ion-content>
+  </div>
+</ion-view>

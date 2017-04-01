@@ -1,0 +1,42 @@
+<ion-view>
+	<ion-content>
+
+	 <div class="button-bar bar-search" >
+	    	<div class="item item-input-inset row "  >
+				    <label class="item-input-wrapper col col-90">
+				      <input class="input-search"type="text" placeholder="Buscar establecimiento..." ng-model="data.search" ng-change="search()">
+				    </label>
+				    <button class="button button-small ion-android-close button-assertive" ng-click="limpiar()" >
+				   <!-- <i class = "icon icon ion-search icon-btn-buscar" ng-click="hola()"></i> -->
+				   
+
+
+ 			 </div>
+		    
+	</div>
+	<li class="item" ng-repeat="est in data.establecimientos" ng-click="ubicarSitio(est)" style="color:white">{{est.nombre}} </li>
+
+	    <div id="map" data-tap-disabled="true"  class="mapa-orientation"></div>
+
+	    <div class=" bar-instrucciones row" >
+	    	<label  class=" col img-mark-instruccion" style="border-right:outset" ><img src="img/blue-mark.png" alt="user-avatar" class="btn-intrucciones-img"></label>
+	    	<label  class=" col img-mark-instruccion" style="border-right:outset" ><img src="img/green-mark.png" alt="user-avatar" class="btn-intrucciones-img"></label>
+	    	<label  class=" col img-mark-instruccion"  ><img src="img/gray-mark.png" alt="user-avatar" class="btn-intrucciones-img"></label>
+	    	
+	
+			
+			 
+		</div>
+
+		<div class=" bar-instrucciones row" >
+	    	<label  class=" col text-instruccion" style="border-right:outset" >Abierto</label>
+	    	<label  class=" col text-instruccion" style="border-right:outset" >Promoción</label>
+	    	<label  class=" col text-instruccion">Cerrado</label>
+	    	
+	
+			
+			 
+		</div>
+	
+	</ion-content>
+</ion-view>

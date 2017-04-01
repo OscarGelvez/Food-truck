@@ -1,0 +1,49 @@
+<ion-view view-title="Detalle Promociones" style="background-image: url(img/fondo.png)">
+<ion-nav-bar class="bar-assertive">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+      
+    </ion-nav-bar>
+
+  <div class="menu">
+    <ion-content class="padding">
+    
+     <br>
+    <center>
+    		<h2 style="color:yellow;">Promociones</h2>
+<br>
+    </center>
+	
+		<div ng-repeat="promo in promocionesSeleccionadas">
+			<h3 style="color:white">Nombre: {{promo.nombre}}</h3>
+			<p style="color:white">
+				{{promo.descripcion}}
+			</p>
+			<h4>Precio Promoción: {{promo.precio}}</h4>
+			<br>
+			<h4>Días: {{promo.dias}}</h4>
+			<h4>Hora: {{promo.horaIni2}}-{{promo.horaFin2}}</h4>
+		<img ng-src="{{promo.imagen}}" alt="img-promocion" class="img_center " style="height:25%;width:25%;border-radius:50px;" >
+	<br>
+
+		<div class="contenidoMenu">
+			<table class="tablaMenu">
+				  <tr class="headMenu">
+				    <th>Plato</th>
+				    <th>Precio normal</th>
+				  </tr>
+				  <tr class="cuerpoMenu" ng-repeat="mp in promo.platoCollection">
+				    <td>{{mp.nombre}}</td>
+				    <td>{{mp.precio}}</td>
+				  </tr>
+
+					 
+
+				</table>
+			</div>
+		</div>
+		
+     
+    </ion-content>
+  </div>
+</ion-view>

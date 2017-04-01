@@ -1,0 +1,72 @@
+<ion-view view-title="Detalle Establecimiento" style="background-image: url(img/fondo.png)">
+<ion-nav-bar class="bar-assertive">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+      
+    </ion-nav-bar>
+
+  <ion-content class="detalleMarcador">
+     
+<center>
+  <div>
+    <br>
+  <h2>{{marcadorSeleccionado.nombre}}   <span class="badge badge-{{colorStatus}} badgeDetalle"> </span></h2>
+
+  </div>
+ 
+  <br>   
+<div class="estiloGeneral">
+    <img ng-src="{{marcadorSeleccionado.imglogo}}" alt="logo-establecimiento"
+  class="img_center " style="height:40%;width:40%;border-radius:50px;" >
+             <br><br>
+<h3>Horarios</h3>
+<h4 ng-repeat="h in horario">{{h.diaListo}}: {{h.horaInicio2}} - {{h.horaFin2}} <br></h4>
+<br>
+<h3>Dirección {{marcadorSeleccionado.direccion}}</h3>
+<br>
+
+<img ng-src="{{marcadorSeleccionado.imglogo}}" alt="logo-establecimiento"
+  class="img_center " style="height:50%;width:50%;" >
+<br><br>
+
+</div>
+  
+
+<div class="btnAccionDetalleMarcador">
+  
+<a class="button  button-positive icon-left ion-ios-telephone-outline btnAccion" ng-href="tel: {{marcadorSeleccionado.telefono}}">LLamar a {{marcadorSeleccionado.telefono}}</a>
+<br><br>
+
+<a class="button  button-positive icon-left ion-navicon-round btnAccion"  href='#/modalMenu/{{marcadorSeleccionado.id}}'> Menú </a>
+
+<br><br>
+
+<a class="button  button-positive icon-left ion-ios-star-outline btnAccion"  href='#/modalPromocion/{{marcadorSeleccionado.id}}'> Promociones </a>
+
+<br><br>
+
+
+</div>
+
+
+
+
+ <div class="div-btn-links">
+       
+        
+         
+
+<a class='icon ion-social-facebook-outline' href="#" ng-click="GotoLink('http://www.facebook.com/{{marcadorSeleccionado.facebook}}')"> {{marcadorSeleccionado.facebook}}</a>
+<br>
+<a class='icon ion-social-twitter-outline' href="#" ng-click="GotoLink('http://www.twitter.com/{{marcadorSeleccionado.twitter}}')"> {{marcadorSeleccionado.twitter}}</a>
+<br>
+<a class='icon ion-ios-world-outline' href="#" ng-click="GotoLink('http://{{marcadorSeleccionado.web}}')"> {{marcadorSeleccionado.web}}</a>
+
+
+      </div>
+
+
+
+ </center>        
+  </ion-content>
+</ion-view>

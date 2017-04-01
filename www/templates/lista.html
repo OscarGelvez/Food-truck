@@ -1,0 +1,79 @@
+<ion-view view-title="Todos los Establecimientos" style="background-color:rgba(255,0,0,0.2)">
+
+
+
+<ion-content style="overflow-y:hidden">
+ <div class="button-bar bar-search" >
+  
+      <div class="item item-input-inset row " style="background-color:rgba(255, 0, 0, 0.8)" >
+            <label class="item-input-wrapper col col-90">
+              <input class="input-search"type="text" placeholder="Busca por nombre o tipo de comida" ng-model="data.search" ng-change="search()">
+            </label>
+            <button class="button button-small ion-android-close button-assertive" ng-click="limpiar()" >
+           
+      </div>
+</div>
+
+  <div style="background-color: white;">
+    <center>
+    <b>Filtrar por:</b>
+
+    <input type="radio" ng-model="filter.c" value="nombre" class="radioFiltro" id="nombre"> 
+    <label for="nombre" class="labelRadio" >Nombre</label>
+  
+    <input type="radio" ng-model="filter.c" value="tipoComida" class="radioFiltro" id="tc"> 
+   <label for="tc" class="labelRadio">Tipo de Comida</label>
+    </center>
+      
+
+</div>
+
+<ion-scroll zooming="true" direction="y" style="width: 100%; height: 90%; ">
+
+  <div class="list">
+
+<a class="item item-avatar" href="#/detalleMarcador/{{it.id}}" ng-repeat="it in items | filter:{ nombre:data.search}" ng-if="!valorFiltrado">
+
+  
+
+      <img ng-src="{{it.imglogo}}" >
+       <h2>{{it.nombre}}</h2> 
+          <p>
+      <h3>Horarios</h3>
+      <h4 ng-repeat="h in it.horarioCollection">{{h}}</h4>
+       <h3>Dirección</h3>
+      <h4> {{it.direccion}}</h4>
+      </p>
+      <span class="badge badge-{{it.colorStatus}} badge_lista">
+    </a>
+
+
+
+ 
+
+       
+
+
+      <div  ng-repeat="group in groups" ng-if="valorFiltrado">
+        <ion-item  class="item-assertive" ng-click="toggleGroup(group)"  ng-class="{active: isGroupShown(group)}" >
+              <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'" style="color:white"> {{group.name}}</i>
+            &nbsp;
+           
+          </ion-item>
+          <ion-item class="item-accordion" 
+                    ng-repeat="item in group.items"
+                    ng-show="isGroupShown(group)" href="#/detalleMarcador/{{item.id}}">
+            <h2 ><i class="icon ion-record"> </i>{{item.nombre}}</h2 > 
+
+          </ion-item>
+        </div>
+ 
+<br>
+    
+</div>
+
+
+ </ion-scroll>
+        
+  </ion-content>
+</ion-view>
