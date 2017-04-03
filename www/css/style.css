@@ -154,6 +154,13 @@ color: white!important;
     .div-btn-inicio{
         margin-top: 50%;
       }
+
+      .img_establecimiento {
+        height:30%;
+        width:100%; 
+        border-radius:0px;
+      }
+
 }
 
 
@@ -217,13 +224,28 @@ color: white!important;
         margin-bottom: 5% !important;
       }
 
+
+      .img_establecimiento {
+        height:70%;
+        width:100%; 
+        border-radius:0px;
+      }
+
  }
 
-
+/*PARA TODOS LOS MARCADORES*/
 .info-marker{
-  width: 250px;
+  width: 220px;
   font-size: 15px;
 }
+
+/*PARA EL MARCADOR DE MI POSICIÓN*/
+
+.info-myMarker{
+  width: 50px;
+  height: auto;
+}
+
 
 .contenidoMenu{
   background-color: rgba(255,255,255,0.2);
@@ -311,9 +333,8 @@ color: white;
 
 }
 
-.item-complex .item-content, .item{
-    background-color: rgb(250,10,00);
-}
+
+
 
 .labelRadio{
 font-size: 15px;
@@ -349,7 +370,7 @@ background-color: rgba(0,0,0,0.8) !important;
   padding-top: 0;
   padding-bottom: 0;
   transition: 0.09s all linear;
- 
+
  
 }
 
@@ -361,14 +382,55 @@ background-color: rgba(0,0,0,0.8) !important;
 .list .item.item-accordion.ng-hide-add,
 .list .item.item-accordion.ng-hide-remove {
   display: block !important;
+   background-color: rgb(250,10,00) !important;
 
 }
 
-.list .item.active, .item.activated, .item-complex.active .item-content, .item-complex.activated .item-content {
+
+
+
+.myLista .list, .item{
+    
+    background-color: rgb(250,10,00) ;
+
+}
+
+.listSideMenu .list .item, .item-complex .item-content{
+  
+  background-color: transparent !important;
+  color: white;
+}
+
+
+.card .item{
+    background-color: #f9f9f9 !important;
+    color: black;
+
+}
+
+.card .textItem{
+  color: #262626;
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 0% ;
+}
+
+.card .textItem2{
+  color: #262626;
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 10% ;
+}
+
+.fa-stack { margin: -2px; }
+
+
+
+/*.list .item.active, .item.activated, .item-complex.active .item-content, .item-complex.activated .item-content {
 border-color: white;
 background-color: #bb0000;
 }
-
+*/
 td{
 text-align: left;
 padding-left: 8%;  

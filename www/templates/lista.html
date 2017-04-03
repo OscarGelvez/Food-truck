@@ -30,9 +30,9 @@
 
 <ion-scroll zooming="true" direction="y" style="width: 100%; height: 90%; ">
 
-  <div class="list">
+  <div class="list myLista">
 
-<a class="item item-avatar" href="#/detalleMarcador/{{it.id}}" ng-repeat="it in items | filter:{ nombre:data.search}" ng-if="!valorFiltrado">
+<a class="item item-avatar" href="#/app/detalleMarcador/{{it.id}}" ng-repeat="it in items | filter:{ nombre:data.search}" ng-if="!valorFiltrado">
 
   
 
@@ -47,14 +47,15 @@
       <span class="badge badge-{{it.colorStatus}} badge_lista">
     </a>
 
+   
 
 
- 
 
-       
+    
+</div>
 
 
-      <div  ng-repeat="group in groups" ng-if="valorFiltrado">
+    <div  class="divItemAccordion" ng-repeat="group in groups" ng-if="valorFiltrado">
         <ion-item  class="item-assertive" ng-click="toggleGroup(group)"  ng-class="{active: isGroupShown(group)}" >
               <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'" style="color:white"> {{group.name}}</i>
             &nbsp;
@@ -62,15 +63,12 @@
           </ion-item>
           <ion-item class="item-accordion" 
                     ng-repeat="item in group.items"
-                    ng-show="isGroupShown(group)" href="#/detalleMarcador/{{item.id}}">
+                    ng-show="isGroupShown(group)" href="#app/detalleMarcador/{{item.id}}">
             <h2 ><i class="icon ion-record"> </i>{{item.nombre}}</h2 > 
 
           </ion-item>
         </div>
- 
-<br>
-    
-</div>
+
 
 
  </ion-scroll>

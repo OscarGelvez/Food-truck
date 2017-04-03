@@ -4,17 +4,19 @@ angular.module('starter.controllers', ['ionic', 'ngCordova'])
 .controller('InicioCtrl', function($scope, $state, $ionicPlatform, $ionicPopup) {
 
 $scope.irAUbicame=function(){
-$state.go('ubicame');	
+$state.go('app.ubicame');	
 
 }
 
 $scope.irALista=function(){
-$state.go('lista'); 
+$state.go('app.lista'); 
 
 }
 
 var deregisterFirst = $ionicPlatform.registerBackButtonAction(
+
       function() {
+       
         $ionicPopup.confirm({
         title: 'Cerrar Food Trucks',
         template: '¿Está seguro de cerrar la aplicación?',
@@ -23,6 +25,7 @@ var deregisterFirst = $ionicPlatform.registerBackButtonAction(
          okType:"button-assertive"
       }).then(function(res) {
         if (res) {
+
           ionic.Platform.exitApp();
         }
       })
@@ -33,11 +36,11 @@ var deregisterFirst = $ionicPlatform.registerBackButtonAction(
 
 })
 
-.controller('UbicameCtrl', function($scope, $state, $cordovaGeolocation, Markers, $ionicLoading, $cordovaNetwork, ConnectivityMonitor, $ionicPopover, MarcadoresActuales, SearchService, $timeout, $ionicPlatform, PromocionesActuales, Promociones) {
+.controller('UbicameCtrl', function($scope, $state, $cordovaGeolocation, Markers, $ionicLoading, $cordovaNetwork, ConnectivityMonitor, $ionicPopover, MarcadoresActuales, SearchService, $timeout, $ionicPlatform, PromocionesActuales, Promociones, direction) {
 
 var deregisterFirst = $ionicPlatform.registerBackButtonAction(
       function() {
-         $state.go("inicio");
+         $state.go("app.inicio");
       }, 100
     );
     $scope.$on('$destroy', deregisterFirst);
@@ -47,10 +50,13 @@ init("AIzaSyADmv84EoKoAKX6_HfV8YRR7Glt27mnADU");
   var markerCache = [];
   var apiKey = false;
   var map = null;
+  //Array con marcadores creados y activos en el mapa
+  var markersActivos = []; 
   
   
-  function initMap(){
+function initMap(){
 
+  
     var options = {timeout: 10000, enableHighAccuracy: true};
 
     $cordovaGeolocation.getCurrentPosition(options).then(function(position){
@@ -58,8 +64,6 @@ init("AIzaSyADmv84EoKoAKX6_HfV8YRR7Glt27mnADU");
       var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     
     // var latLng = new google.maps.LatLng(7.910537, -72.492747);
-
-     
       var mapOptions = {
         center: latLng,
         zoom: 18,
@@ -70,9 +74,27 @@ init("AIzaSyADmv84EoKoAKX6_HfV8YRR7Glt27mnADU");
 
       map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
+     
+      myMarkerPosition();
+
+     
+
+       
+
+        $scope.globalLatLng = latLng;
+
+     
+       // $scope.trazarRuta();
+   
+
+        // var onChangeHandler = function() {
+        //   calculateAndDisplayRoute(
+        //       directionsDisplay, directionsService, markersActivos, stepDisplay, map);
+        // };
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function RadioControl(controlDiv, map) {
+  function RadioControl(controlDiv, map) {
 
   var control = this;
   controlDiv.style.clear = 'both';
@@ -119,7 +141,7 @@ function RadioControl(controlDiv, map) {
               }
               markersActivos = [];
    loadMarkersByValor(5000);
-   
+  
   });
 
   //Evento que muestra establecimientos en 10km alrededor
@@ -132,6 +154,7 @@ function RadioControl(controlDiv, map) {
               }
               markersActivos = [];
    loadMarkersByValor(10000);
+
   });
 
    //Evento que muestra establecimientos en 10km alrededor
@@ -145,29 +168,21 @@ function RadioControl(controlDiv, map) {
               markersActivos = [];
    loadMarkersByValor(15000);
    
+   
   });
-}
-/*
-RadioControl.prototype.center_ = null;
-
-RadioControl.prototype.getCenter = function() {
-  return this.center_;
-};
-RadioControl.prototype.setCenter = function(center) {
-  this.center_ = center;
-};
-*/
+  }
   var radioControlDiv = document.createElement('div');
   var centerControl = new RadioControl(radioControlDiv, map);
 
   radioControlDiv.index = 1;
   radioControlDiv.style['padding-top'] = '10px';
+  if(!direction.val[0]){
   map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(radioControlDiv);
+  }
+ 
 
 ////////////////////////////////////////////////////EVENTOS SOBRE EL MAPA////////////////////////////////////////////////////////
-      //Wait until the map is loaded
-      
-      google.maps.event.addListenerOnce(map, 'idle', function(){
+       google.maps.event.addListenerOnce(map, 'idle', function(){
        loadMarkers();
      
         //Reload markers every time the map moves
@@ -191,10 +206,9 @@ RadioControl.prototype.setCenter = function(center) {
 
       });
 
-    }, function(error){
-      console.log("Could not get location");
-    });
-    
+}, function(error){
+  console.log("Could not get location");
+});    
 //Funcion que se encarga de centrar el mapa en unos valores recibidos.
        $scope.centrarEn=function(lat, lng, marcador){
         
@@ -213,9 +227,75 @@ RadioControl.prototype.setCenter = function(center) {
               
             }, 5000);
        }
+}
+
+// fin Funcion initMap 
+  
+    function calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map, id_mark_destinity) {
+                   // Retrieve the start and end locations and create a DirectionsRequest using
+                  // WALKING directions.
+                directionsService.route({
+                    origin: $scope.globalLatLng,
+                    destination: $scope.destinationMarker,
+                    travelMode: google.maps.TravelMode.DRIVING
+                  }, function(response, status) {
+                    // Route the directions and pass the response to a function to create
+                    // markers for each step.
+                    if (status === google.maps.DirectionsStatus.OK) {
+                         
+                          directionsDisplay.setDirections(response);
+                  
+                    } else {
+                      window.alert('Directions request failed due to ' + status);
+                    }
+
+                   
+               });
+                //Limpio los demas marcadores y solo dejo los de Inicio y Destino
+                  for (var j = 0; j < markerArray.length; j++) {
+                          if(markerArray[j].id != -1 && (markerArray[j].id != id_mark_destinity)){
+                              markerArray[j].setMap(null);
+                             }                 
+                       }
+
 
   }
-  
+
+
+
+   $scope.trazarRuta=function(){
+      var directionsService = new google.maps.DirectionsService;
+       // Create a renderer for directions and bind it to the map.
+        var directionsDisplay = new google.maps.DirectionsRenderer({map: map, suppressMarkers: true});
+
+        // Instantiate an info window to hold step text.
+        var stepDisplay = new google.maps.InfoWindow;
+
+
+          if(direction.val[0]){
+         
+          for (var i = 0; i < MarcadoresActuales.arrayM.length; i++) {
+           
+           if(MarcadoresActuales.arrayM[i].id == direction.val[1]){
+
+
+                  var aux = new google.maps.LatLng(MarcadoresActuales.arrayM[i].latitud, MarcadoresActuales.arrayM[i].longitud)
+                  $scope.destinationMarker = aux;
+                   calculateAndDisplayRoute(directionsDisplay, directionsService, markersActivos, stepDisplay, map, direction.val[1]);
+            }else{
+                $scope.destinationMarker = 0;
+                }
+          }         
+       
+        }  
+
+      }
+
+
+
+
+
+
 
   function enableMap(){
     $ionicLoading.hide();
@@ -258,6 +338,7 @@ RadioControl.prototype.setCenter = function(center) {
 
     document.body.appendChild(script);
 
+
   }
 
   function checkLoaded(){
@@ -268,7 +349,46 @@ RadioControl.prototype.setCenter = function(center) {
     }       
   }
 
+
+
+// ############################################CARGAR MI POSICIÓN########################################################
+function myMarkerPosition(){
+   var options = {timeout: 10000, enableHighAccuracy: true};
+   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+        var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+           var pinImage={
+                  url: "img/chartRed" +".png",
+                  size: new google.maps.Size(21, 34),
+                  origin: new google.maps.Point(0,0),
+                  archor: new google.maps.Point(10, 34)
+                }
+
+              
+
+          $scope.globalLatLng= latLng;
+      
+       var markerMe = addMarker(latLng, pinImage, -1);
+
+        addInfoMyPosition(markerMe); 
+     })
+}
+
+
+function addInfoMyPosition(markerMe){
+  var infoWindowContent = "<div class='info-myMarker'>"+ 
+              "<h4 style='text-align:center; color:orange; !important;'>Tú</h4> "+
+              
+             "</div>";          
+
+              addInfoWindow(markerMe, infoWindowContent);
+}
+
+
+
+  // ####################################################################################################
+
   function loadMarkers(){
+
 
       var center = map.getCenter();
       var bounds = map.getBounds();
@@ -279,10 +399,7 @@ RadioControl.prototype.setCenter = function(center) {
           lat: center.lat(),
           lng: center.lng()
       };
-
- 
- //Carga inicial de promociones de todos los establecimientos
-
+      //Carga inicial de promociones de todos los establecimientos
             var pr = Promociones.getPromo().then(function(pr){
             var p=pr.data;
 
@@ -292,15 +409,10 @@ RadioControl.prototype.setCenter = function(center) {
                             var pro = p[j];
                            
                             PromocionesActuales.arrayP.push(p[j]);
-                            console.log(pro);             
+                            //console.log(pro);             
                       }
-           
-
         })
-
-
-
-      var markers = Markers.getMarkers().then(function(markers){
+     var markers = Markers.getMarkers().then(function(markers){
         //console.log("Markers: ", markers);
       var records = markers.data;
       MarcadoresActuales.arrayM.splice(0,MarcadoresActuales.arrayM.length);
@@ -334,7 +446,7 @@ RadioControl.prototype.setCenter = function(center) {
                                         
                                         $scope.promosOk.push(PromocionesActuales.arrayP[j]);
                                         //console.log($scope.promosOk);
-                                        console.log(colorMark);
+                                        //console.log(colorMark);
                                 }
                               
                             };
@@ -351,13 +463,16 @@ RadioControl.prototype.setCenter = function(center) {
                             addInfoMarker(markerCreado, record, $scope.promosOk);                        
                   }          
         }
+
+        $scope.trazarRuta();
       });
          
-  }
+}
 
 
-//Array con marcadores creados y activos en el mapa
-var markersActivos = []; 
+
+
+
 
 //Array que cntiene los marcadores de respaldo. 
 //Sirve para lograr ubicar en el mapa cuando se busque un establecimiento
@@ -394,6 +509,7 @@ function addMarker(location, colorMarker, id) {
 }
   //Le asigno un id al obj marcador para reconocerlo de los demas
   marker.id=id;
+  //console.log(marker);
   
    return marker;
 }
@@ -411,7 +527,7 @@ function deleteMarkers() {
 
 //Agrega la ventana de informacion a cada marcador
 function addInfoMarker(marcador, record, promos){
-  console.log(promos);
+ /// console.log(promos);
 var horarios=record.horarioCollection;  
 var horarioListo="";
 var promosListas="";
@@ -469,7 +585,7 @@ var infoWindowContent = "<div class='info-marker'> <img src='"+record.imglogo+"'
               promosListas+
                
                
-               "<center> <br><a class='button button-balanced ' href='#/detalleMarcador/"+record.id+"'>Saber mas</a>"
+               "<center> <br><a class='button button-balanced ' href='#/app/detalleMarcador/"+record.id+"'>Saber mas</a>"
                +"</center> </div>";          
 
               addInfoWindow(marcador, infoWindowContent);
@@ -485,6 +601,8 @@ function loadMarkersByValor(valor){
           lat: center.lat(),
           lng: center.lng()
       };
+
+      myMarkerPosition();
       //console.log(centerNorm.lat);
       //console.log(centerNorm.lng);
 
@@ -550,6 +668,7 @@ function changeColorMarker(estado){
             else if(estado==2){
                 pinColor = "Green";
             }
+
     /*var pinImage = new google.maps.MarkerImage("../img/chart" + pinColor+".png",
     new google.maps.Size(21, 34),
     new google.maps.Point(0,0),
@@ -765,7 +884,7 @@ $scope.data = { "establecimientos" : [], "search" : '' };
 })
 
 
-.controller('DetalleMarcadorCtrl', function($scope, $state, $stateParams, MarcadoresActuales, $ionicModal, $ionicPlatform, PromocionesActuales) {
+.controller('DetalleMarcadorCtrl', function($scope, $state, $stateParams, MarcadoresActuales, $ionicModal, $ionicPlatform, PromocionesActuales, direction) {
 
 
 var deregisterFirst = $ionicPlatform.registerBackButtonAction(
@@ -786,9 +905,27 @@ for (var i = 0; i < MarcadoresActuales.arrayM.length; i++) {
 
             $scope.marcadorSeleccionado=MarcadoresActuales.arrayM[i];
             console.log($scope.marcadorSeleccionado);
+
+            $scope.especialidad = $scope.marcadorSeleccionado.tipocomidaCollection;
       }
   
 };
+
+$scope.isFb=false;
+$scope.isTw=false;
+$scope.isWWW=false;
+
+if($scope.marcadorSeleccionado.facebook==""){
+  $scope.isFb=true;
+}
+
+if($scope.marcadorSeleccionado.twitter==""){
+  $scope.isTw=true;
+}
+
+if($scope.marcadorSeleccionado.web==""){
+  $scope.isWWW=true;
+}
 
 $scope.horario=$scope.marcadorSeleccionado.horarioCollection;
 $scope.menuInfo=$scope.marcadorSeleccionado.menuCollection;
@@ -861,6 +998,13 @@ $scope.colorStatus="dark"
   }
 
 
+$scope.navegarARuta=function(){
+     direction.val[0] = true;
+     direction.val[1] = $scope.idMarcador;
+     $state.go('app.ubicame');
+}  
+
+
 })
 
 
@@ -896,6 +1040,34 @@ $scope.menuInfo=$scope.marcadorSeleccionado.menuCollection;
 //console.log($scope.menuPlatos);
 console.log($scope.menuInfo);
 
+// $scope.isEntrade=false;
+// $scope.isPrincipal=false;
+// $scope.isPostre=false;
+// $scope.isBebida=false;
+
+// for (var j = 0; j < $scope.menuInfo.length; j++) {
+  
+//       for (var k = 0; k <  $scope.menuInfo[j].platoCollection.length; k++) {
+//               if($scope.menuInfo[j].platoCollection[k].tipo == 1){
+//                 $scope.isEntrade=true;
+//               }
+
+//               if($scope.menuInfo[j].platoCollection[k].tipo == 2){
+//                 $scope.isPrincipal=true;
+//               }
+
+//               if($scope.menuInfo[j].platoCollection[k].tipo == 3){
+//                 $scope.isPostre=true;
+//               }
+
+//               if($scope.menuInfo[j].platoCollection[k].tipo == 4){
+//                 $scope.isBebida=true;
+//               }
+
+
+//       };
+ 
+// };
 
 
 
@@ -909,7 +1081,7 @@ console.log($scope.menuInfo);
 
 var deregisterFirst = $ionicPlatform.registerBackButtonAction(
       function() {
-          $state.go("inicio");
+          $state.go("app.inicio");
       }, 100
     );
     $scope.$on('$destroy', deregisterFirst);

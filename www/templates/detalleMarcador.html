@@ -1,72 +1,102 @@
-<ion-view view-title="Detalle Establecimiento" style="background-image: url(img/fondo.png)">
+<ion-view view-title="Detalle Establecimiento">
 <ion-nav-bar class="bar-assertive">
       <ion-nav-back-button>
       </ion-nav-back-button>
       
     </ion-nav-bar>
 
-  <ion-content class="detalleMarcador">
+  <ion-content class="">
+
+
+      <img ng-src="{{marcadorSeleccionado.imgest}}" alt="logo-establecimiento"
+      class="img_establecimiento " >
      
-<center>
-  <div>
-    <br>
-  <h2>{{marcadorSeleccionado.nombre}}   <span class="badge badge-{{colorStatus}} badgeDetalle"> </span></h2>
+    <div class="card">
+       <div class="item item-avatar">
+          <img ng-src="{{marcadorSeleccionado.imglogo}}" alt="logo-establecimiento" class="" >
+          <div style="text-align:left">
+             
+            <b style="font-size:1.2em;">{{marcadorSeleccionado.nombre}}  <span class="badge badge-{{colorStatus}} badgeDetalle"> </span></b>
+            <br>
+            <i>Especialidad en</i>
+            <br>
+            <label ng-repeat="tp in especialidad"> {{tp.nombre}} <br></label>
 
-  </div>
- 
-  <br>   
-<div class="estiloGeneral">
-    <img ng-src="{{marcadorSeleccionado.imglogo}}" alt="logo-establecimiento"
-  class="img_center " style="height:40%;width:40%;border-radius:50px;" >
-             <br><br>
-<h3>Horarios</h3>
-<h4 ng-repeat="h in horario">{{h.diaListo}}: {{h.horaInicio2}} - {{h.horaFin2}} <br></h4>
-<br>
-<h3>Dirección {{marcadorSeleccionado.direccion}}</h3>
-<br>
+             <b>Horarios</b>
+             <br>
+                  <label ng-repeat="h in horario">{{h.diaListo}}: {{h.horaInicio2}} - {{h.horaFin2}} <br></label>
+                  <br>
+             <b>Dirección</b>     
+                  <label> {{marcadorSeleccionado.direccion}}</label>
+          </div>
+          
+          
+                 
+       </div>
 
-<img ng-src="{{marcadorSeleccionado.imglogo}}" alt="logo-establecimiento"
-  class="img_center " style="height:50%;width:50%;" >
-<br><br>
+       <div class="item item-body">
+            
 
-</div>
+
+              <div class="item">
+               
+                      <a  class="textItem" style="color:black; text-decoration: none;" ng-click="navegarARuta()"> <i class="fa fa-location-arrow fa-2x assertive" aria-hidden="true"></i><i class="textItem2">Como llegar</i></a>
+               </div>
+
+               <div class="item">
+                
+                   <a  class="textItem" style="color:black; text-decoration: none;" ng-href="tel: {{marcadorSeleccionado.telefono}}">
+                    <i class="fa fa-phone fa-2x assertive" aria-hidden="true"></i><i class="textItem2">LLamar a {{marcadorSeleccionado.telefono}}</i></a>
+               
+               </div>
+
+               <div class="item">
+               
+                  <a class="textItem" style="color:black; text-decoration: none;" href='#/app/modalMenu/{{marcadorSeleccionado.id}}'>  <i class="fa fa-book fa-2x assertive" aria-hidden="true"></i><i class="textItem2">Menú </i></a>
+               </div>
+
+               <div class="item">
+
+                          
+                      <a class="textItem" style="color:black; text-decoration: none;"  href='#/app/modalPromocion/{{marcadorSeleccionado.id}}'>  
+                        <span class="fa-stack fa-1x assertive">
+                        <i class="fa fa-certificate fa-stack-2x" aria-hidden="true"></i> 
+                        <i style="color:white" class="fa fa-percent fa-stack-1x" aria-hidden="true"></i>
+                        </span> 
+                            <i class="textItem2">Promociones</i>
+                      </a>
+               </div>
+
+                    <center>
+                   <div class="row" >                            
+
+                      <div class="col" ng-hide="isFb">
+                            <a class='textItem' href="#" ng-click="GotoLink('http://www.facebook.com/{{marcadorSeleccionado.facebook}}')"><i class="fa fa-facebook-square assertive fa-2x" aria-hidden="true"></i></a>
+                      </div>
+
+                      <div class="col" ng-hide="isTw">
+                            <a class='textItem' href="#" ng-click="GotoLink('http://www.twitter.com/{{marcadorSeleccionado.twitter}}')"><i class="fa fa-twitter-square assertive fa-2x" aria-hidden="true"></i></a>                   
+                      </div>
+
+                      <div class="col" ng-hide="isWWW">                              
+                         <a class='textItem' href="#" ng-click="GotoLink('http://{{marcadorSeleccionado.web}}')"><i class="fa fa-link assertive fa-2x" aria-hidden="true"></i></a>
+                      </div>
+
+                  </div>
+                    </center>
+                
+
   
-
-<div class="btnAccionDetalleMarcador">
-  
-<a class="button  button-positive icon-left ion-ios-telephone-outline btnAccion" ng-href="tel: {{marcadorSeleccionado.telefono}}">LLamar a {{marcadorSeleccionado.telefono}}</a>
-<br><br>
-
-<a class="button  button-positive icon-left ion-navicon-round btnAccion"  href='#/modalMenu/{{marcadorSeleccionado.id}}'> Menú </a>
-
-<br><br>
-
-<a class="button  button-positive icon-left ion-ios-star-outline btnAccion"  href='#/modalPromocion/{{marcadorSeleccionado.id}}'> Promociones </a>
-
-<br><br>
-
-
-</div>
-
-
-
-
- <div class="div-btn-links">
-       
-        
-         
-
-<a class='icon ion-social-facebook-outline' href="#" ng-click="GotoLink('http://www.facebook.com/{{marcadorSeleccionado.facebook}}')"> {{marcadorSeleccionado.facebook}}</a>
-<br>
-<a class='icon ion-social-twitter-outline' href="#" ng-click="GotoLink('http://www.twitter.com/{{marcadorSeleccionado.twitter}}')"> {{marcadorSeleccionado.twitter}}</a>
-<br>
-<a class='icon ion-ios-world-outline' href="#" ng-click="GotoLink('http://{{marcadorSeleccionado.web}}')"> {{marcadorSeleccionado.web}}</a>
-
-
       </div>
 
 
 
- </center>        
+
+
+
+
+
+
+       
   </ion-content>
 </ion-view>

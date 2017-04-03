@@ -24,47 +24,92 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
   $ionicConfigProvider.navBar.alignTitle("center");
   $stateProvider
 
-  .state('inicio', {
+  .state('app.inicio', {
     url: '/inicio',
-    templateUrl: 'templates/inicio.html',
-    controller: 'InicioCtrl'
+    views:{
+       'menuContent':{
+         templateUrl: 'templates/inicio.html',
+         controller: 'InicioCtrl'
+       }
+    }
+   
   })
 
-  .state('ubicame', {
+
+.state('app', {
+                  url: '/app',
+                  abstract: true,
+                  templateUrl: 'templates/tabs.html',
+                  controller: 'TabsCtrl'
+                })
+
+             
+
+  .state('app.ubicame', {
     url: '/ubicame',
-    templateUrl: 'templates/ubicame.html',
-    controller: 'UbicameCtrl'
+    cache: false,
+        views: {
+        'menuContent':{
+               templateUrl: 'templates/ubicame.html',
+               controller: 'UbicameCtrl'
+        }  
+      } 
   })
 
-   .state('detalleMarcador', {
+
+.state('app.lista', {
+    url: '/lista',
+    views: {
+      'menuContent':{
+          templateUrl: 'templates/lista.html',
+          controller: 'ListaCtrl'
+      }
+    }
+  
+  })
+
+
+   .state('app.detalleMarcador', {
 
     url: '/detalleMarcador/:markId',
-    templateUrl: 'templates/detalleMarcador.html',
-    controller: 'DetalleMarcadorCtrl'
+    views: {
+        'menuContent':{
+           templateUrl: 'templates/detalleMarcador.html',
+            controller: 'DetalleMarcadorCtrl'
+        }
+    }
+   
   })
 
-.state('modalMenu', {
+
+.state('app.modalMenu', {
     url: '/modalMenu/:markId',
-    templateUrl: 'templates/modalMenu.html',
-    controller: 'MenuMarcadorCtrl'
+    views: {
+        'menuContent':{
+             templateUrl: 'templates/modalMenu.html',
+             controller: 'MenuMarcadorCtrl'
+        }
+    }
+   
   })
 
-.state('modalPromocion', {
+.state('app.modalPromocion', {
     url: '/modalPromocion/:markId',
-    templateUrl: 'templates/modalPromocion.html',
-    controller: 'PromocionMarcadorCtrl'
+    views: {
+       'menuContent': {
+          templateUrl: 'templates/modalPromocion.html',
+          controller: 'PromocionMarcadorCtrl'
+       }
+    }
+    
   })
 
-.state('lista', {
-    url: '/lista',
-    templateUrl: 'templates/lista.html',
-    controller: 'ListaCtrl'
-  })
+
 
   
 
 
-  $urlRouterProvider.otherwise("/inicio");
+  $urlRouterProvider.otherwise("/app/inicio");
 
 })
 
@@ -208,6 +253,14 @@ return{
 return{
    arrayT:[]
 
+  };
+})
+
+
+.factory('direction', function() {
+return{
+   
+      val:[]
   };
 })
 
