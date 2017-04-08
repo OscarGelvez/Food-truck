@@ -71,15 +71,15 @@
                    <div class="row" >                            
 
                       <div class="col" ng-hide="isFb">
-                            <a class='textItem' href="#" ng-click="GotoLink('http://www.facebook.com/{{marcadorSeleccionado.facebook}}')"><i class="fa fa-facebook-square assertive fa-2x" aria-hidden="true"></i></a>
+                            <a class='textItem' href="#/app/detalleMarcador/{{marcadorSeleccionado.id}}" ng-click="GotoLink('http://www.facebook.com/{{marcadorSeleccionado.facebook}}')"><i class="fa fa-facebook-square assertive fa-2x" aria-hidden="true"></i></a>
                       </div>
 
                       <div class="col" ng-hide="isTw">
-                            <a class='textItem' href="#" ng-click="GotoLink('http://www.twitter.com/{{marcadorSeleccionado.twitter}}')"><i class="fa fa-twitter-square assertive fa-2x" aria-hidden="true"></i></a>                   
+                            <a class='textItem' href="#/app/detalleMarcador/{{marcadorSeleccionado.id}}" ng-click="GotoLink('http://www.twitter.com/{{marcadorSeleccionado.twitter}}')"><i class="fa fa-twitter-square assertive fa-2x" aria-hidden="true"></i></a>                   
                       </div>
 
                       <div class="col" ng-hide="isWWW">                              
-                         <a class='textItem' href="#" ng-click="GotoLink('http://{{marcadorSeleccionado.web}}')"><i class="fa fa-link assertive fa-2x" aria-hidden="true"></i></a>
+                         <a class='textItem' href="#/app/detalleMarcador/{{marcadorSeleccionado.id}}" ng-click="GotoLink('http://{{marcadorSeleccionado.web}}')"><i class="fa fa-link assertive fa-2x" aria-hidden="true"></i></a>
                       </div>
 
                   </div>

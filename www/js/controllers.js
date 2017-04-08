@@ -53,6 +53,7 @@ init("AIzaSyADmv84EoKoAKX6_HfV8YRR7Glt27mnADU");
   //Array con marcadores creados y activos en el mapa
   var markersActivos = []; 
   
+
   
 function initMap(){
 
@@ -171,6 +172,17 @@ function initMap(){
    
   });
   }
+
+  $scope.cargarMarcadoresPorEstado=function(estado){
+
+    for (var i = 0; i < markersActivos.length; i++) {
+             markersActivos[i].setMap(null);
+             //alert("map "+i);
+              }
+    //1 2 3
+    markersActivos = [];
+    loadMarkersByEstado(estado)
+  }
   var radioControlDiv = document.createElement('div');
   var centerControl = new RadioControl(radioControlDiv, map);
 
@@ -261,7 +273,8 @@ function initMap(){
 
   }
 
-
+$scope.mapa={}
+$scope.mapa.style="75%!important";
 
    $scope.trazarRuta=function(){
       var directionsService = new google.maps.DirectionsService;
@@ -285,8 +298,13 @@ function initMap(){
             }else{
                 $scope.destinationMarker = 0;
                 }
-          }         
-       
+          }
+
+          $scope.ocultaBarSearch=true;      
+          $scope.mapa.style="85%!important";
+        }else{
+          directionsDisplay.setMap(null);
+          $scope.ocultaBarSearch=false;
         }  
 
       }
@@ -594,68 +612,156 @@ var infoWindowContent = "<div class='info-marker'> <img src='"+record.imglogo+"'
 
 ////////////////////////////////Carga marcadores de acuerdo a Rangos 5KM, 10KM y 15KM//////////////////////
 function loadMarkersByValor(valor){
+           var center = map.getCenter();
+           var centerNorm = {
+                  lat: center.lat(),
+                  lng: center.lng()
+              };
+                 myMarkerPosition();
+           for (var i = 0; i < MarcadoresActuales.arrayM.length; i++) {
 
+                var record = MarcadoresActuales.arrayM[i];
+                //MarcadoresActuales.arrayM.push(records[i]);
 
-       var center = map.getCenter();
-       var centerNorm = {
-          lat: center.lat(),
-          lng: center.lng()
-      };
+                record.latitud=parseFloat(record.latitud);
+                record.longitud=parseFloat(record.longitud);
 
-      myMarkerPosition();
-      //console.log(centerNorm.lat);
-      //console.log(centerNorm.lng);
+                var LatLngMark = {lat: record.latitud, lng: record.longitud};
 
-     // var markers = Markers.getMarkers().then(function(markers){
-        //console.log("Markers: ", markers);
-     // var records = markers.data;
-      //Limpio factory array que contendra los marcadores visibles en pantalla para que no haya datos repetidos.
-     // MarcadoresActuales.arrayM.splice(0,MarcadoresActuales.arrayM.length);
+                console.log(record);
+                console.log("la distancia es "+getDistanceBetweenPoints(centerNorm, LatLngMark, 'km')*1000);
 
-        for (var i = 0; i < MarcadoresActuales.arrayM.length; i++) {
+                    if((getDistanceBetweenPoints(centerNorm, LatLngMark, 'km')*1000)<valor){
+                        //alert("veces");
+                              var pinImage=changeColorMarker(record.status);
 
-              var record = MarcadoresActuales.arrayM[i];
-              //MarcadoresActuales.arrayM.push(records[i]);
+                              var markerCreado= addMarker(LatLngMark, pinImage, record.id);
+                            
+                                $scope.promosOk=[];
+                              for (var j = 0; j < PromocionesActuales.arrayP.length; j++) {
+                                  
 
-              record.latitud=parseFloat(record.latitud);
-              record.longitud=parseFloat(record.longitud);
-
-              var LatLngMark = {lat: record.latitud, lng: record.longitud};
-
-              console.log(record);
-              console.log("la distancia es "+getDistanceBetweenPoints(centerNorm, LatLngMark, 'km')*1000);
-
-                  if((getDistanceBetweenPoints(centerNorm, LatLngMark, 'km')*1000)<valor){
-                      //alert("veces");
-                            var pinImage=changeColorMarker(record.status);
-
-                            var markerCreado= addMarker(LatLngMark, pinImage, record.id);
-                          
-                              $scope.promosOk=[];
-                            for (var j = 0; j < PromocionesActuales.arrayP.length; j++) {
+                                  if(PromocionesActuales.arrayP[j].establecimiento.id==record.id && PromocionesActuales.arrayP[j].estado==1){
+                                          
+                                          if(record.status==1){
+                                            pinImage=changeColorMarker(2);
+                                          }
+                                          $scope.promosOk.push(PromocionesActuales.arrayP[j]);
+                                          console.log($scope.promosOk);
+                                  }
                                 
-
-                                if(PromocionesActuales.arrayP[j].establecimiento.id==record.id && PromocionesActuales.arrayP[j].estado==1){
-                                        
-                                        if(record.status==1){
-                                          pinImage=changeColorMarker(2);
-                                        }
-                                        $scope.promosOk.push(PromocionesActuales.arrayP[j]);
-                                        console.log($scope.promosOk);
-                                }
-                              
-                            };
-                                var markerCreado= addMarker(LatLngMark, pinImage, record.id);
-                            //Agrego ventana de info al marcador
-                            addInfoMarker(markerCreado, record, $scope.promosOk);  
-                  }    
-                                     
-        }
-        
-        
-
-     
+                              };
+                                  var markerCreado= addMarker(LatLngMark, pinImage, record.id);
+                              //Agrego ventana de info al marcador
+                              addInfoMarker(markerCreado, record, $scope.promosOk);  
+                    }    
   }
+}
+
+
+
+
+////////////////////////////////Carga marcadores de acuerdo a Rangos 5KM, 10KM y 15KM//////////////////////
+function loadMarkersByEstado(estado){
+           var center = map.getCenter();
+           var centerNorm = {
+                  lat: center.lat(),
+                  lng: center.lng()
+              };
+                 myMarkerPosition();
+           for (var i = 0; i < MarcadoresActuales.arrayM.length; i++) {
+
+                var record = MarcadoresActuales.arrayM[i];
+                //MarcadoresActuales.arrayM.push(records[i]);
+
+                record.latitud=parseFloat(record.latitud);
+                record.longitud=parseFloat(record.longitud);
+
+                var LatLngMark = {lat: record.latitud, lng: record.longitud};
+
+                console.log(record);
+                
+
+                    if(record.status && estado==1){
+                        //alert("veces");
+                              
+                              var tienePromo=false;
+                                $scope.promosOk=[];
+                              for (var j = 0; j < PromocionesActuales.arrayP.length; j++) {
+                                  
+
+                                  if(PromocionesActuales.arrayP[j].establecimiento.id==record.id && PromocionesActuales.arrayP[j].estado==1){
+                                          
+                                          tienePromo=true;
+                                  }
+                                
+                              };
+                               if(tienePromo){
+                                continue
+                               }else{
+                                    //Agrego ventana de info al marcador
+                                    var pinImage=changeColorMarker(record.status);
+                                    var markerCreado= addMarker(LatLngMark, pinImage, record.id);
+                                    addInfoMarker(markerCreado, record, $scope.promosOk); 
+                               }  
+                               
+                    }
+
+                    else if(!record.status && estado==0){
+                        //alert("veces");
+                              var pinImage=changeColorMarker(record.status);
+
+                              var markerCreado= addMarker(LatLngMark, pinImage, record.id);
+                            
+                                $scope.promosOk=[];
+                              for (var j = 0; j < PromocionesActuales.arrayP.length; j++) {
+                                  
+
+                                  if(PromocionesActuales.arrayP[j].establecimiento.id==record.id && PromocionesActuales.arrayP[j].estado==1){
+                                          
+                                          if(record.status==1){
+                                            pinImage=changeColorMarker(2);
+                                          }
+                                          $scope.promosOk.push(PromocionesActuales.arrayP[j]);
+                                          console.log($scope.promosOk);
+                                  }
+                                
+                              };
+                                  var markerCreado= addMarker(LatLngMark, pinImage, record.id);
+                              //Agrego ventana de info al marcador
+                              addInfoMarker(markerCreado, record, $scope.promosOk);  
+                    } 
+                    else if(estado == 2){
+                               
+                         
+                             // if(promo.data[i].establecimiento.id == record.id){
+                                       $scope.promosOk=[];
+                                        for (var j = 0; j < PromocionesActuales.arrayP.length; j++) {
+                                            
+
+                                            if(PromocionesActuales.arrayP[j].establecimiento.id==record.id && PromocionesActuales.arrayP[j].estado==1){
+                                                    
+                                                    if(record.status==1){
+                                                      pinImage=changeColorMarker(2);
+                                                    }
+                                                    $scope.promosOk.push(PromocionesActuales.arrayP[j]);
+                                                    console.log($scope.promosOk);
+                                                     
+                                                    var markerCreado= addMarker(LatLngMark, pinImage, record.id);
+                                                    var markerCreado= addMarker(LatLngMark, pinImage, record.id);
+                                                    //Agrego ventana de info al marcador
+                                                    addInfoMarker(markerCreado, record, $scope.promosOk); 
+                                                    
+                                            }
+                                          
+                                        };
+                                     
+                       
+                     }
+              }                                     
+        
+}
+
 
 function changeColorMarker(estado){
   var pinColor;
@@ -997,7 +1103,7 @@ $scope.colorStatus="dark"
     window.open(url,'_system', 'location=yes');
   }
 
-
+direction.val[0] = false;
 $scope.navegarARuta=function(){
      direction.val[0] = true;
      direction.val[1] = $scope.idMarcador;

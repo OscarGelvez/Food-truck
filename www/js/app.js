@@ -13,7 +13,10 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
     if(window.StatusBar) {
-      StatusBar.styleDefault();
+      // StatusBar.styleDefault();
+       StatusBar.backgroundColorByHexString("#B71C1C");
+        showStatusBar(true);
+       
     }
 
     //GoogleMaps.init();
@@ -72,6 +75,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
    .state('app.detalleMarcador', {
 
     url: '/detalleMarcador/:markId',
+    cache:false,
     views: {
         'menuContent':{
            templateUrl: 'templates/detalleMarcador.html',
@@ -118,8 +122,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
 
   var markers = [];
 
-//var urlBase="http://sandbox1.ufps.edu.co:8080/ufps_13-Food_trucks_final/";
- var urlBase="http://localhost:8080/Food_trucks_final/";
+var urlBase="http://sandbox1.ufps.edu.co:8080/ufps_13-Food_trucks_final/";
+ //var urlBase="http://localhost:8080/Food_trucks_final/";
 
 
 //http://sandbox1.ufps.edu.co:8080/ufps_13-Food_trucks_final/
@@ -153,8 +157,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
 
 .factory('Promociones', function($http, loadingService, $ionicPopup) {
 
-//var urlBase="http://sandbox1.ufps.edu.co:8080/ufps_13-Food_trucks_final/";
- var urlBase="http://localhost:8080/Food_trucks_final/";
+var urlBase="http://sandbox1.ufps.edu.co:8080/ufps_13-Food_trucks_final/";
+// var urlBase="http://localhost:8080/Food_trucks_final/";
   var pro = [];
 
   return {
@@ -184,8 +188,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
 
   var tc = [];
 
-//var urlBase="http://sandbox1.ufps.edu.co:8080/ufps_13-Food_trucks_final/";
- var urlBase="http://localhost:8080/Food_trucks_final/";
+var urlBase="http://sandbox1.ufps.edu.co:8080/ufps_13-Food_trucks_final/";
+ //var urlBase="http://localhost:8080/Food_trucks_final/";
   return {
     getTipos: function(){
         loadingService.show();
