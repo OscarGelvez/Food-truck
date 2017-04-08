@@ -134,7 +134,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
   
 
 
-  $urlRouterProvider.otherwise("/app/inicio");
+  $urlRouterProvider.otherwise("/inicio");
 
 })
 
