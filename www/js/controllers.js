@@ -1588,10 +1588,14 @@ for (var j = 0; j < PromocionesActuales.arrayP.length; j++) {
   
 };
 
-
-
-
-
-
-
 })
+
+.controller('mi_foodtruckCtrl', function($scope, $state, $stateParams, MarcadoresActuales, $ionicPlatform, PromocionesActuales) {
+
+
+  })
+
+.controller('acercadeCtrl', function($scope, $state, $stateParams, MarcadoresActuales, $ionicPlatform, PromocionesActuales) {
+
+
+  })

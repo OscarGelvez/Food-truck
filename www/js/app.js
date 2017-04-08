@@ -108,6 +108,27 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
     
   })
 
+.state('app.acercade', {
+    url: '/acercade',
+    views: {
+       'menuContent': {
+          templateUrl: 'templates/acercade.html',
+          controller: 'acercadeCtrl'
+       }
+    }
+    
+  })
+.state('app.mi_foodtruck', {
+    url: '/mi_foodtruck',
+    views: {
+       'menuContent': {
+          templateUrl: 'templates/mi_foodtruck.html',
+          controller: 'mi_foodtruckCtrl'
+       }
+    }
+    
+  })
+
 
 
   

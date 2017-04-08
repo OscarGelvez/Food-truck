@@ -434,3 +434,29 @@ text-align: left;
 padding-left: 8%;  
 }
 
+.webPage{
+  width: 100%;
+  height: 100%;
+  border: 1px solid #a80303;
+  padding: 1rem;
+}
+
+.card .textItem3{
+  color: #a80303 !important;
+  font-size: 16px;
+  font-weight: 600;
+  
+}
+
+pre
+{
+  font-family: monospace, serif;
+  margin-bottom: 10px;
+  overflow: auto;
+  width: auto;
+  padding: 5px;
+ 
+  width: 650px!ie7;
+  padding-bottom: 20px!ie7;
+  max-height: 600px;
+}
