@@ -3,9 +3,9 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
+angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers','ionic-ratings'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $cordovaDevice) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -18,9 +18,18 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
         showStatusBar(true);
        
     }
-
     //GoogleMaps.init();
+
+
   })
+})
+
+
+.factory('uuid', function() {
+return{
+   val: 0
+
+  };
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
@@ -134,7 +143,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers'])
   
 
 
-  $urlRouterProvider.otherwise("/inicio");
+  $urlRouterProvider.otherwise("/app/inicio");
 
 })
 
@@ -210,7 +219,7 @@ var urlBase="http://sandbox1.ufps.edu.co:8080/ufps_13-Food_trucks_final/";
   var tc = [];
 
 var urlBase="http://sandbox1.ufps.edu.co:8080/ufps_13-Food_trucks_final/";
- //var urlBase="http://localhost:8080/Food_trucks_final/";
+// var urlBase="http://localhost:8080/Food_trucks_final/";
   return {
     getTipos: function(){
         loadingService.show();
@@ -234,6 +243,33 @@ var urlBase="http://sandbox1.ufps.edu.co:8080/ufps_13-Food_trucks_final/";
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
+.factory('PuntuacionesEstabl', function($http, loadingService, $ionicPopup) {
+
+  var tc = [];
+
+var urlBase="http://sandbox1.ufps.edu.co:8080/ufps_13-Food_trucks_final/";
+ //var urlBase="http://localhost:8080/Food_trucks_final/";
+  return {
+    getScore: function(){
+        loadingService.show();
+      return $http.get(urlBase+"servletStars").success(function(response){
+        loadingService.hide();
+          console.log(response);
+
+          tc = response;
+          return tc;
+      }).error(function(err){
+      loadingService.hide();
+        console.log(err);
+      
+
+      })
+
+    }
+  }
+
+})
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 .factory('ConnectivityMonitor', function($rootScope, $cordovaNetwork){
@@ -283,6 +319,13 @@ return{
 
 
 .factory('direction', function() {
+return{
+   
+      val:[]
+  };
+})
+
+.factory('puntuaciones', function() {
 return{
    
       val:[]

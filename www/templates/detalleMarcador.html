@@ -8,10 +8,46 @@
   <ion-content class="">
 
 
+
+
+
+
+
       <img ng-src="{{marcadorSeleccionado.imgest}}" alt="logo-establecimiento"
       class="img_establecimiento " >
-     
-    <div class="card">
+
+
+
+        
+
+
+
+
+  <div class="card">
+
+
+       <ion-item >
+      {{rating.name}} 
+              <span class="stars alignright">
+                  <span ng-style="{ 'width': getStars(rating.number) }"></span>
+
+              </span>             
+              
+      </ion-item>
+
+       <ion-item ng-show="isVisible">
+      
+              <i style="float:left; font-weight:500;" class="balanced" >Calificar ahora:</i> 
+              <ionic-ratings ratingsobj='ratingsObject'></ionic-ratings>
+              
+              <button class="button button-balanced button-small" ng-click="calificarAhora()">Enviar!</button>           
+              
+      </ion-item>
+      
+
+      
+
+
        <div class="item item-avatar">
           <img ng-src="{{marcadorSeleccionado.imglogo}}" alt="logo-establecimiento" class="" >
           <div style="text-align:left">
@@ -90,7 +126,7 @@
       </div>
 
 
-
+</div>
 
 
 

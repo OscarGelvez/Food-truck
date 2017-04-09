@@ -1,18 +1,14 @@
-angular.module('starter.controllers', ['ionic', 'ngCordova'])
+angular.module('starter.controllers', ['ionic', 'ngCordova', 'ionic-ratings'])
 
 
-.controller('InicioCtrl', function($scope, $state, $ionicPlatform, $ionicPopup) {
+.factory('uuidFactory', function() {
+return{
+   val: 0
 
-$scope.irAUbicame=function(){
-$state.go('app.ubicame');	
+  };
+})
 
-}
-
-$scope.irALista=function(){
-$state.go('app.lista'); 
-
-}
-
+.controller('InicioCtrl', function($scope, $state, $ionicPlatform, $ionicPopup, $cordovaDevice, uuidFactory, PuntuacionesEstabl, puntuaciones) {
 var deregisterFirst = $ionicPlatform.registerBackButtonAction(
 
       function() {
@@ -34,9 +30,48 @@ var deregisterFirst = $ionicPlatform.registerBackButtonAction(
     $scope.$on('$destroy', deregisterFirst); 
 
 
+$scope.irAUbicame=function(){
+$state.go('app.ubicame');	
+
+}
+
+$scope.irALista=function(){
+$state.go('app.lista'); 
+}
+
+
+
+
+var score = PuntuacionesEstabl.getScore().then(function(scores){
+
+  puntuaciones.val = clone(scores.data);
+  console.log(puntuaciones.val)
+});
+
+
+
+
+//Funcion que clona el objeto 
+function clone( obj ) {
+    if ( obj === null || typeof obj  !== 'object' ) {
+        return obj;
+    }
+ 
+    var temp = obj.constructor();
+    for ( var key in obj ) {
+        temp[ key ] = clone( obj[ key ] );
+    }
+    
+    return temp;
+}
+
+
+
+
+
 })
 
-.controller('UbicameCtrl', function($scope, $state, $cordovaGeolocation, Markers, $ionicLoading, $cordovaNetwork, ConnectivityMonitor, $ionicPopover, MarcadoresActuales, SearchService, $timeout, $ionicPlatform, PromocionesActuales, Promociones, direction) {
+.controller('UbicameCtrl', function($scope, $state, $cordovaGeolocation, Markers, $ionicLoading, $cordovaNetwork, ConnectivityMonitor, $ionicPopover, MarcadoresActuales, SearchService, $timeout, $ionicPlatform, PromocionesActuales, Promociones, direction, uuidFactory) {
 
 var deregisterFirst = $ionicPlatform.registerBackButtonAction(
       function() {
@@ -990,7 +1025,7 @@ $scope.data = { "establecimientos" : [], "search" : '' };
 })
 
 
-.controller('DetalleMarcadorCtrl', function($scope, $state, $stateParams, MarcadoresActuales, $ionicModal, $ionicPlatform, PromocionesActuales, direction) {
+.controller('DetalleMarcadorCtrl', function($scope, $state, $stateParams, MarcadoresActuales, $ionicModal, $ionicPlatform, PromocionesActuales, direction, puntuaciones, $cordovaDevice, loadingService, $http, $ionicPopup) {
 
 
 var deregisterFirst = $ionicPlatform.registerBackButtonAction(
@@ -1109,6 +1144,116 @@ $scope.navegarARuta=function(){
      direction.val[1] = $scope.idMarcador;
      $state.go('app.ubicame');
 }  
+
+// ######################################## Puntuaciones Establecimientos ##################################################
+
+//Funcion que clona el objeto 
+function clone( obj ) {
+    if ( obj === null || typeof obj  !== 'object' ) {
+        return obj;
+    }
+ 
+    var temp = obj.constructor();
+    for ( var key in obj ) {
+        temp[ key ] = clone( obj[ key ] );
+    }
+    
+    return temp;
+}
+
+
+$scope.puntuacionesE = clone(puntuaciones.val);
+var cont = 0;
+var sum = 0;
+console.log($scope.puntuacionesE.length);
+for (var i = 0; i < $scope.puntuacionesE.length; i++) {
+  
+  if($scope.puntuacionesE[i].idEstablecimiento == $scope.idMarcador){
+    cont ++;
+      sum += $scope.puntuacionesE[i].stars;    
+  }
+};
+var puntaje = sum/cont;
+console.log(puntaje);
+
+   $scope.rating = { name: 'Calificación de usuarios', number: puntaje }; 
+  // $scope.rating = { name: 'Calificación de usuarios', number: '4.5' };
+ 
+  $scope.getStars = function(rating) {
+    // Get the value
+    var val = parseFloat(rating);
+    // Turn value into number/100
+    var size = val/5*100;
+    return size + '%';
+  }
+
+$scope.isVisible=true;
+
+ var uuid = $cordovaDevice.getUUID();
+ localStorage.setItem("uuid", uuid);
+ console.log( localStorage.getItem("uuid"));
+//alert(uuid);
+
+// ###################### HABILITAR CALIFICACIÓN ###########################
+for (var i = 0; i < $scope.puntuacionesE.length; i++) {
+  
+  if( $scope.puntuacionesE[i].uuid == uuid && $scope.puntuacionesE[i].idEstablecimiento == $scope.idMarcador){
+    $scope.isVisible=false;
+
+  }
+};
+
+// Codigo para dar una calificacion //////////////////////////////////////////
+
+$scope.calificarAhora=function(){
+
+  
+var urlBase="http://sandbox1.ufps.edu.co:8080/ufps_13-Food_trucks_final/";
+ //var urlBase="http://localhost:8080/Food_trucks_final/";
+  loadingService.show();
+   
+  $.ajax({
+      url: urlBase+'servletStars',
+      type:'post',
+      datatype:'json',
+      data:{puntaje:$scope.valCalificado,uuid:uuid,id_establecimiento:$scope.idMarcador},
+      success:function(resultado){
+        loadingService.hide();
+        console.log(resultado);
+          if(resultado==1){
+              var alertPopup = $ionicPopup.alert({
+                     title: 'Exito',
+                     template: 'Su calificación fue guardada correctamente'
+               });
+         $scope.isVisible=false;
+              
+          }else{
+           var alertPopup = $ionicPopup.alert({
+                     title: 'Error',
+                     template: 'Ya calificaste este establecimiento'
+               });
+          }
+              
+      }
+   });
+
+}
+$scope.ratingsObject = {
+        iconOn : 'ion-android-star',
+        iconOff : 'ion-android-star-outline',
+        iconOnColor: 'rgb(238, 221, 7)',
+        iconOffColor:  'rgb(190, 190, 190)',
+        rating:  5,
+        minRating:0,
+        callback: function(rating) {
+          $scope.ratingsCallback(rating);
+        }
+      };
+
+      $scope.ratingsCallback = function(rating) {
+        console.log('Selected rating is : ', rating);
+        $scope.valCalificado = rating;
+      };
 
 
 })
