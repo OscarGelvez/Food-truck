@@ -128,6 +128,9 @@ function initMap(){
         //       directionsDisplay, directionsService, markersActivos, stepDisplay, map);
         // };
 
+        $scope.alejarMapa=function(){
+          map.setZoom(11);
+        }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   function RadioControl(controlDiv, map) {
@@ -217,6 +220,7 @@ function initMap(){
     //1 2 3
     markersActivos = [];
     loadMarkersByEstado(estado)
+    map.setZoom(11);
   }
   var radioControlDiv = document.createElement('div');
   var centerControl = new RadioControl(radioControlDiv, map);
@@ -337,7 +341,9 @@ $scope.mapa.style="75%!important";
 
           $scope.ocultaBarSearch=true;      
           $scope.mapa.style="85%!important";
+          $scope.alejarMapa();
         }else{
+
           directionsDisplay.setMap(null);
           $scope.ocultaBarSearch=false;
         }  
@@ -1025,7 +1031,17 @@ $scope.data = { "establecimientos" : [], "search" : '' };
 })
 
 
-.controller('DetalleMarcadorCtrl', function($scope, $state, $stateParams, MarcadoresActuales, $ionicModal, $ionicPlatform, PromocionesActuales, direction, puntuaciones, $cordovaDevice, loadingService, $http, $ionicPopup) {
+.controller('DetalleMarcadorCtrl', function($scope, $state, $stateParams, MarcadoresActuales, $ionicModal, $ionicPlatform, PromocionesActuales, direction, puntuaciones, $cordovaDevice, loadingService, $http, $ionicPopup, PuntuacionesEstabl) {
+
+$scope.reloadScores=function(){
+  var score = PuntuacionesEstabl.getScore().then(function(scores){
+
+  puntuaciones.val = clone(scores.data);
+  console.log(puntuaciones.val)
+});
+
+}
+
 
 
 var deregisterFirst = $ionicPlatform.registerBackButtonAction(
@@ -1188,7 +1204,7 @@ console.log(puntaje);
   }
 
 $scope.isVisible=true;
-
+  //var uuid = "qwerty"
  var uuid = $cordovaDevice.getUUID();
  localStorage.setItem("uuid", uuid);
  console.log( localStorage.getItem("uuid"));
@@ -1207,7 +1223,11 @@ for (var i = 0; i < $scope.puntuacionesE.length; i++) {
 
 $scope.calificarAhora=function(){
 
-  
+if($scope.valCalificado == undefined){
+  $scope.valCalificado=5;
+}
+
+
 var urlBase="http://sandbox1.ufps.edu.co:8080/ufps_13-Food_trucks_final/";
  //var urlBase="http://localhost:8080/Food_trucks_final/";
   loadingService.show();
@@ -1226,12 +1246,14 @@ var urlBase="http://sandbox1.ufps.edu.co:8080/ufps_13-Food_trucks_final/";
                      template: 'Su calificación fue guardada correctamente'
                });
          $scope.isVisible=false;
+         $scope.reloadScores();
               
           }else{
            var alertPopup = $ionicPopup.alert({
                      title: 'Error',
                      template: 'Ya calificaste este establecimiento'
                });
+            $scope.isVisible=false;
           }
               
       }
@@ -1244,7 +1266,7 @@ $scope.ratingsObject = {
         iconOnColor: 'rgb(238, 221, 7)',
         iconOffColor:  'rgb(190, 190, 190)',
         rating:  5,
-        minRating:0,
+        minRating:1,
         callback: function(rating) {
           $scope.ratingsCallback(rating);
         }
